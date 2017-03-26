@@ -26,36 +26,41 @@ public class Agent extends AbstractMultiPlayer {
     public boolean useShiftBuffer = true;
 
     int nEvals;
-
     public EvoAlg evoAlg;
+
+    public int[] NUM_ACTIONS;
+    public Types.ACTIONS[][] actions;
+    public int id, oppID, no_players;
+
+
+    // int index;
+    int[] solution;
+    // will only recalculate after this number of steps
+    // static int playoutLength = 1;
 
     public static void main(String[] args) {
         System.out.println();
     }
 
 
-    public int[] NUM_ACTIONS;
-    public Types.ACTIONS[][] actions;
-    public int id, oppID, no_players;
-
     /**
      * Public constructor with state observation and time due.
+     *
      * @param so state observation of the current game.
      * @param elapsedTimer Timer for the controller creation.
      */
-    public Agent(StateObservationMulti so, ElapsedCpuTimer elapsedTimer, EvoAlg evoAlg, int playerID, int nEvals)
+    public Agent(StateObservationMulti so, ElapsedCpuTimer elapsedTimer,
+                 EvoAlg evoAlg, int playerID, int nEvals)
     {
         //get game information
 
         this.evoAlg = evoAlg;
-
         no_players = so.getNoPlayers();
         id = playerID;
         oppID = (id + 1) % so.getNoPlayers();
         this.nEvals = nEvals;
 
         //Get the actions for all players in a static array.
-
         NUM_ACTIONS = new int[no_players];
         actions = new Types.ACTIONS[no_players][];
         for (int i = 0; i < no_players; i++) {
@@ -70,33 +75,19 @@ public class Agent extends AbstractMultiPlayer {
         }
     }
 
-
-
     /**
      * Picks an action. This function is called every game step to request an
      * action from the player.
+     *
      * @param stateObs Observation of the current state.
      * @param elapsedTimer Timer when the action returned is due.
      * @return An action for the current state
      */
-
-    // int index;
-    int[] solution;
-
-    // will only recalculate after this number of steps
-    // static int playoutLength = 1;
-
-
     public Types.ACTIONS act(StateObservation stateObs, ElapsedCpuTimer elapsedTimer) {
-
         //Set the state observation object as the new root of the tree.
-
         // we'll set up a game adapter and run the algorithm independently each
         // time at least to being with
-
-        int action;
         GameActionSpaceAdapter game = new GameActionSpaceAdapter(stateObs, sequenceLength);
-
         if (solution != null) {
             solution = SearchSpaceUtil.shiftLeftAndRandomAppend(solution, game);
             evoAlg.setInitialSeed(solution);
@@ -106,9 +97,8 @@ public class Agent extends AbstractMultiPlayer {
 
         // System.out.println(Arrays.toString(solution) + "\t " + game.evaluate(solution));
 
-        action = solution[0];
+        int action = solution[0];
         // already return the first element, so now set it to 1 ...
-
         if (!useShiftBuffer) solution = null;
 
         // index = 1;
@@ -142,16 +132,8 @@ public class Agent extends AbstractMultiPlayer {
         // already return the first element, so now set it to 1 ...
 
         if (!useShiftBuffer) solution = null;
-
-        // index = 1;
-
-        //... and return it.
-        // return actions[action];
-
         return actions[id][action1];
     }
-
-
 
 
 //    /**

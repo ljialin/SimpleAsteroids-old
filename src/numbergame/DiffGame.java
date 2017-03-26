@@ -16,6 +16,33 @@ import java.util.Random;
 
 public class DiffGame extends StateObservationMulti {
 
+    // game of length 50 should be enough
+    static int maxTick = 50;
+    // game tick counter
+    public static int nTicks = 0;
+    // values in the game
+    public static int nValues = 11;
+    public static int minscore = 0;
+
+    int tick, score;
+    int i1, i2; // positions of players 1 and 2
+    static Random random = new Random();
+
+    static Types.WINNER[] noWinners = new Types.WINNER[]{Types.WINNER.NO_WINNER, Types.WINNER.NO_WINNER};
+
+    static int actionLimit = 3; // nb of available actions in the game
+
+    static ArrayList<Types.ACTIONS> actions = new ArrayList<>();
+    static {
+        for (Types.ACTIONS a : Types.ACTIONS.values()) {
+            if (actions.size() < actionLimit) {
+//                System.out.println("Types.ACTIONS a=" + a.toString());
+                actions.add(a);
+            }
+        }
+        System.out.println("nActions = " + actions.size());
+    }
+
     public static void main(String[] args) {
 
         minscore = 3;
@@ -25,11 +52,7 @@ public class DiffGame extends StateObservationMulti {
                 System.out.format("%d\t %d\t %d\n", i, j, getScore(i, j));
             }
         }
-
         // now do a speed test
-
-
-
     }
 
     static int getScore(int i1, int i2) {
@@ -39,38 +62,8 @@ public class DiffGame extends StateObservationMulti {
 
     }
 
-    // game of length 50 should be enough
-    static int maxTick = 50;
-    public static int nTicks = 0;
-
-    public static int nValues = 11;
-    public static int minscore = 0;
-
-    int tick, score, i1, i2;
-
-
     public DiffGame(ForwardModel a_model) {
         super(a_model);
-    }
-
-    public String toString() {
-        return String.format("%d\t %d\t %d\t %d ; scoreDiff = %d\n", tick, i1, i2, score, getScore(i1, i2));
-    }
-
-
-
-
-    static ArrayList<Types.ACTIONS> actions = new ArrayList<>();
-
-    static int actionLimit = 3;
-
-    static {
-        for (Types.ACTIONS a : Types.ACTIONS.values()) {
-            if (actions.size() < actionLimit) {
-                actions.add(a);
-            }
-        }
-        System.out.println("nActions = " + actions.size());
     }
 
     public DiffGame() {
@@ -86,6 +79,9 @@ public class DiffGame extends StateObservationMulti {
         this.i2 = i2;
     }
 
+    public String toString() {
+        return String.format("%d\t %d\t %d\t %d ; scoreDiff = %d\n", tick, i1, i2, score, getScore(i1, i2));
+    }
 
     public StateObservationMulti copy() {
         return new DiffGame(tick, score, i1, i2);
@@ -98,33 +94,37 @@ public class DiffGame extends StateObservationMulti {
         throw new RuntimeException("Not meant to call single player version");
     }
 
+    /**
+     * Advance the game given the actions of both players
+     *
+     * @param actions
+     */
     public void advance(Types.ACTIONS[] actions) {
-
         int[] a = new int[]{actions[0].ordinal(), actions[1].ordinal()};
-
+        // translate the move
         int a1 = getMove(actions[0].ordinal());
         int a2 = getMove(actions[1].ordinal());
-
+        // update the position
         i1 = (i1 + nValues + a1) % nValues;
         i2 = (i2 + nValues + a2) % nValues;
-
+        // calculate the score
         score += getScore(i1, i2);
-
+        // game ticks consumed
         tick++;
 
         // keep track of total game ticks used
         nTicks++;
-
     }
 
+    /**
+     * Translate the action index by half of the range
+     *
+     * @param action
+     * @return
+     */
     static int getMove(int action) {
         return action - actionLimit / 2;
     }
-
-
-
-    static Random random = new Random();
-
 
     /**
      * Sets a new seed for the forward model's random generator (creates a new object)
@@ -132,7 +132,6 @@ public class DiffGame extends StateObservationMulti {
      * @param seed the new seed.
      */
     public void setNewSeed(int seed) {
-
         System.out.println("Not setting new seed...");
     }
 
@@ -169,7 +168,7 @@ public class DiffGame extends StateObservationMulti {
     }
 
     public double getGameScore() {
-        return score;
+        return getGameScore(0);
     }
 
     public double getGameScore(int playerId) {
@@ -195,13 +194,9 @@ public class DiffGame extends StateObservationMulti {
         return Types.WINNER.NO_WINNER;
     }
 
-
-    static Types.WINNER[] noWinners = new Types.WINNER[]{Types.WINNER.NO_WINNER, Types.WINNER.NO_WINNER};
     public Types.WINNER[] getMultiGameWinner() {
         return noWinners;
     }
-
-
 
     /**
      * Indicates if the game is over or if it hasn't finished yet.
