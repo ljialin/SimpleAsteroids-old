@@ -23,6 +23,7 @@ public class SimpleRMHC implements EvoAlg {
     int[] seed;
     // SolutionEvaluator evaluator
     SearchSpace searchSpace;
+    NTupleSystem model;
 
     private int nSamples;
 
@@ -103,7 +104,6 @@ public class SimpleRMHC implements EvoAlg {
         return bestYet;
     }
 
-    NTupleSystem model;
     @Override
     public void setModel(NTupleSystem nTupleSystem) {
         this.model = nTupleSystem;

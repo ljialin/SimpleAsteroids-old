@@ -5,6 +5,7 @@ import core.game.StateObservationMulti;
 import core.player.AbstractMultiPlayer;
 import evodef.EvoAlg;
 import evogame.Mutator;
+import ga.RHGA;
 import ga.SimpleRMHC;
 import ntuple.NTupleBanditEA;
 import numbergame.DiffGame;
@@ -60,10 +61,12 @@ public class TestDiffGame {
         int nResamples = 10;
         int kExplore = 2;
         int nNeighbours = 50;
+        boolean isShiftBuffer = true;
         EvoAlg evoAlg = createEvoAlgo(0, new int[]{nResamples});
         EvoAlg evoAlg2 = createEvoAlgo(1, new int[]{kExplore, nNeighbours});
-        player1 = createAgent(stateObs, timer, evoAlg, idPlayer1, nEvals, true, 5);
-        player2 = createAgent(stateObs, timer, evoAlg2, idPlayer2, nEvals, true, 25);;
+        EvoAlg evoAlg3 = createEvoAlgo(2, new int[]{nResamples, 1});
+        player1 = createAgent(stateObs, timer, evoAlg, idPlayer1, nEvals, isShiftBuffer, 5);
+        player2 = createAgent(stateObs, timer, evoAlg2, idPlayer2, nEvals, isShiftBuffer, 25);;
 
 
         // player2 = new controllers.multiPlayer.discountOLMCTS.Agent(stateObs, timer, idPlayer2);
@@ -144,6 +147,17 @@ public class TestDiffGame {
             case 1:
                 if (params!=null && params.length==2) {
                     evoAlg = new NTupleBanditEA(params[0], params[1]);
+                } else {
+                    System.err.println("createEvoAlgo: case 1: The given params do not match the requirement.");
+                }
+                break;
+            case 2:
+                if (params!=null && params.length==2) {
+                    if (params[1]>0) {
+                        evoAlg = new RHGA(params[0], true);
+                    } else {
+                        evoAlg = new RHGA(params[0], false);
+                    }
                 } else {
                     System.err.println("createEvoAlgo: case 1: The given params do not match the requirement.");
                 }

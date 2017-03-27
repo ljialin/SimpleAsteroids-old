@@ -58,7 +58,9 @@ public class GameActionSpaceAdapterMulti implements FitnessSpace {
         this.opponentID = opponentID;
     }
 
-
+    public void isShiftBuffer() {
+        return
+    }
     @Override
     public int nDims() {
         return sequenceLength;
