@@ -131,6 +131,11 @@ public class EvalNoisyWinRate implements SolutionEvaluator, SearchSpace, Fitness
     }
 
     @Override
+    public double pairEvaluate(int[] bits, int[] oppBits) {
+        return 0;
+    }
+
+    @Override
     public boolean optimalFound() {
         return false;
     }

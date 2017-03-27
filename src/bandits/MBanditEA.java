@@ -54,7 +54,7 @@ public class MBanditEA implements EvoAlg {
         double bestYet = evaluator.evaluate(genome.toArray());
         int nTrials = 1;
         while (evaluator.nEvals() < nEvals && !evaluator.optimalFound()) {
-            // each evaluation, make a mutation
+            // each evaluation, make a mutator
             // measure the fitness
             // and feed it back
 

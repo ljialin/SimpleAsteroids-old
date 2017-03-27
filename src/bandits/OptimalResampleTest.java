@@ -147,7 +147,7 @@ public class OptimalResampleTest {
 
         public void updateStandard(boolean verbose) {
             // the update is really simple:
-            // at each stage we make a mutation with a
+            // at each stage we make a mutator with a
             // specified probability that it will be an improvement
 
             // the index refers to
@@ -177,17 +177,17 @@ public class OptimalResampleTest {
 
         public void updateNoisy(boolean verbose, double pErr) {
             // the update is really simple:
-            // at each stage we make a mutation with a
+            // at each stage we make a mutator with a
             // specified probability that it will be an improvement
 
             // there are now three possible ways in which probability mass
             // may move
 
-            // 1.  A mutation for better is correctly accepted
+            // 1.  A mutator for better is correctly accepted
             //     moving the probability mass from state i to state i+1
             //       This happens with a probability of pBetter * (1 - pErr)
 
-            // 2.  A mutation for worse is incorrectly accepted
+            // 2.  A mutator for worse is incorrectly accepted
             //     moving the mass from state i to state i-1
             //       This happens with a probability of pWorse * pErr
 

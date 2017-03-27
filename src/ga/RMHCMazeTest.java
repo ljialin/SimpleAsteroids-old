@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class RMHCMazeTest {
 
-    // Random mutation hill climber for testing one-max
+    // Random mutator hill climber for testing one-max
     static Random random = new Random();
 
     static int maxEvals = 20000;

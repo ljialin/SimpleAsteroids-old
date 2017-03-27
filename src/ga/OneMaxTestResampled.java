@@ -9,7 +9,7 @@ import java.util.Random;
 
 public class OneMaxTestResampled {
 
-    // Random mutation hill climber for testing one-max
+    // Random mutator hill climber for testing one-max
     static Random random = new Random();
 
     static int nActualSamples = 1;
@@ -70,7 +70,7 @@ public class OneMaxTestResampled {
         while(i < nEvals) {
             // randomly mutate the best yet
             int[] mut = randMut(bestYet);
-            // if it's better then adopt the mutation as the new best
+            // if it's better then adopt the mutator as the new best
             // add in the noise to the decision
 
             StatSummary ssMut = countOnesNoisy(mut, nActualSamples);

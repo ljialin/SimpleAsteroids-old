@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class OneMaxVisual {
 
-    // Random mutation hill climber for testing one-max
+    // Random mutator hill climber for testing one-max
     static Random random = new Random();
     static int maxEvals = 500;
 
@@ -39,7 +39,7 @@ public class OneMaxVisual {
             frame.setTitle(i + " : " + countOnes(mut));
             view.repaint();
             delay();
-            // if it's better then adopt the mutation as the new best
+            // if it's better then adopt the mutator as the new best
             if (countOnes(mut) >= countOnes(bestYet)) {
                 bestYet = mut;
             }

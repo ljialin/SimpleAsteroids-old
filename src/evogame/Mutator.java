@@ -3,6 +3,7 @@ package evogame;
 import evodef.EvalMaxM;
 import evodef.SearchSpace;
 import evodef.SearchSpaceUtil;
+import ga.search.Individual;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -45,7 +46,7 @@ public class Mutator {
         if (totalRandomChaosMutation) {
             return SearchSpaceUtil.randomPoint(searchSpace);
         }
-        // otherwise do a proper mutation
+        // otherwise do a proper mutator
         int n = v.length;
         int[] x = new int[n];
         // pointwise probability of additional mutations
@@ -70,5 +71,21 @@ public class Mutator {
         // value is greater than or equal to the current value
         int rx = random.nextInt(nPossible-1);
         return rx >= cur ? rx+1 : rx;
+    }
+
+    int mutateWithProba(double probaMut, int cur, int nPossible) {
+        if (random.nextDouble() < probaMut) {
+            return mutateValue(cur, nPossible);
+        }
+        return cur;
+    }
+
+    public void mutateIndividual(Individual individual, double probaMut) {
+        for (int i = 0; i < individual.getGenome().length; i++) {
+            if (random.nextDouble() < probaMut) {
+                int cur = individual.getGenome()[i];
+                individual.getGenome()[i] = mutateValue(cur, searchSpace.nValues(i));
+            }
+        }
     }
 }

@@ -36,6 +36,11 @@ public class TenFitnessEval extends TenSpace implements SolutionEvaluator{
         return fitness;
     }
 
+    @Override
+    public double pairEvaluate(int[] bits, int[] oppBits) {
+        return 0;
+    }
+
 
     @Override
     public Double optimalIfKnown() {

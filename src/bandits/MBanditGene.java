@@ -60,7 +60,7 @@ public class MBanditGene {
 
         for (int i = 0; i < nArms; i++) {
             // never choose the current value of x
-            // that would not be a mutation!!!
+            // that would not be a mutator!!!
             if (i != x) {
                 double exploit = exploit(i);
                 double explore = explore(armPulls[i]);

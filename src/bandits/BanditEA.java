@@ -74,7 +74,7 @@ public class BanditEA {
         // will make 2 trials each time around the loop
         for (trialsSoFar = 2; trialsSoFar<=nEvals; trialsSoFar+=2) {
 
-            // each evaluation, make a mutation
+            // each evaluation, make a mutator
             // measure the fitness
             // and feed it back
 

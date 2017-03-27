@@ -11,6 +11,7 @@ public interface SolutionEvaluator {
     // call reset before running
     public void reset();
     double evaluate(int[] bits);
+    double pairEvaluate(int[] bits, int[] oppBits);
 
     boolean optimalFound();
     SearchSpace searchSpace();

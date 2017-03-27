@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class OneMaxTest {
 
-    // Random mutation hill climber for testing one-max
+    // Random mutator hill climber for testing one-max
     static Random random = new Random();
 
     static int nVirtualSamples = 1;
@@ -74,7 +74,7 @@ public class OneMaxTest {
             // randomly mutate the best yet
             int[] mut = randMut(bestYet);
             double noise = random.nextGaussian() * noiseStdDev;
-            // if it's better then adopt the mutation as the new best
+            // if it's better then adopt the mutator as the new best
             // add in the noise to the decision
             if (countOnes(mut) >= countOnes(bestYet) + noise) {
                 bestYet = mut;

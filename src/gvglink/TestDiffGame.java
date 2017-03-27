@@ -1,19 +1,19 @@
 package gvglink;
 
-import core.game.StateObservation;
-import core.game.StateObservationMulti;
+
 import core.player.AbstractMultiPlayer;
 import evodef.EvoAlg;
 import evogame.Mutator;
-import ga.RHGA;
+import ga.search.RHEA;
 import ga.SimpleRMHC;
+import ga.search.RHGA;
 import ntuple.NTupleBanditEA;
 import numbergame.DiffGame;
 import ontology.Types;
 import tools.ElapsedCpuTimer;
 import utilities.ElapsedTimer;
 import utilities.StatSummary;
-
+import core.game.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -65,8 +65,8 @@ public class TestDiffGame {
         EvoAlg evoAlg = createEvoAlgo(0, new int[]{nResamples});
         EvoAlg evoAlg2 = createEvoAlgo(1, new int[]{kExplore, nNeighbours});
         EvoAlg evoAlg3 = createEvoAlgo(2, new int[]{nResamples, 1});
-        player1 = createAgent(stateObs, timer, evoAlg, idPlayer1, nEvals, isShiftBuffer, 5);
-        player2 = createAgent(stateObs, timer, evoAlg2, idPlayer2, nEvals, isShiftBuffer, 25);;
+        player1 = createAgent(stateObs, timer, evoAlg, idPlayer1, nEvals, isShiftBuffer, 10);
+        player2 = createAgent(stateObs, timer, evoAlg3, idPlayer2, nEvals, isShiftBuffer, 10);
 
 
         // player2 = new controllers.multiPlayer.discountOLMCTS.Agent(stateObs, timer, idPlayer2);
@@ -170,11 +170,11 @@ public class TestDiffGame {
     }
 
     public static controllers.multiPlayer.ea.Agent createAgent(StateObservationMulti stateObs,
-                                                               ElapsedCpuTimer timer, EvoAlg evoAlg2,
+                                                               ElapsedCpuTimer timer, EvoAlg evoAlg,
                                                                int idPlayer, int nEvals,
                                                                boolean useShiftBuffer, int sequenceLength) {
         controllers.multiPlayer.ea.Agent agent =
-            new controllers.multiPlayer.ea.Agent(stateObs, timer, evoAlg2, idPlayer, nEvals);
+            new controllers.multiPlayer.ea.Agent(stateObs, timer, evoAlg, idPlayer, nEvals);
         agent.useShiftBuffer = useShiftBuffer;
         agent.sequenceLength = sequenceLength;
         return agent;

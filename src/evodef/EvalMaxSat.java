@@ -43,6 +43,11 @@ public class EvalMaxSat implements SolutionEvaluator, SearchSpace {
     }
 
     @Override
+    public double pairEvaluate(int[] bits, int[] oppBits) {
+        return 0;
+    }
+
+    @Override
     public boolean optimalFound() {
         return false;
     }

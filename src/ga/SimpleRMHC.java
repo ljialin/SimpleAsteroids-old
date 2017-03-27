@@ -15,7 +15,7 @@ import java.util.Random;
 
 public class SimpleRMHC implements EvoAlg {
 
-    // Random mutation hill climber for testing one-max
+    // Random mutator hill climber for testing one-max
     static Random random = new Random();
 
     int[] bestYet;

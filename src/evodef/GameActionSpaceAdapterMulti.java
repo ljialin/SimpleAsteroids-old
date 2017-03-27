@@ -58,9 +58,6 @@ public class GameActionSpaceAdapterMulti implements FitnessSpace {
         this.opponentID = opponentID;
     }
 
-    public void isShiftBuffer() {
-        return
-    }
     @Override
     public int nDims() {
         return sequenceLength;
@@ -101,6 +98,58 @@ public class GameActionSpaceAdapterMulti implements FitnessSpace {
             // the idea is that we'll pad out the
             int myAction = actions[i];
             int opAction = random.nextInt(obs.getAvailableActions(opponentID).size());
+            Types.ACTIONS[] acts = new Types.ACTIONS[2];
+            acts[playerID] = gvgaiActions[myAction];
+            acts[opponentID] = gvgaiActions[opAction];
+
+            obs.advance(acts);
+
+            discountedTot += discount * (obs.getGameScore(playerID) - initScore);
+
+            if (useHeuristic && obs instanceof SpaceBattleLinkStateTwoPlayer) {
+                SpaceBattleLinkStateTwoPlayer state = (SpaceBattleLinkStateTwoPlayer) obs;
+                discountedTot += state.getHeuristicScore();
+            }
+            denom += discount;
+            discount *= discountFactor;
+        }
+
+        nEvals++;
+        double delta;
+        if (useDiscountFactor) {
+            delta = discountedTot / denom;
+        } else {
+            delta = obs.getGameScore() - initScore;
+        }
+        delta += noiseLevel * random.nextGaussian();
+        return delta;
+    }
+
+    /**
+     * Evaluation given the opponent's action sequence
+     * @param actions
+     * @param oppActions
+     * @return
+     */
+    public double pairEvaluate(int[] actions, int[] oppActions) {
+        assert (actions.length == oppActions.length);
+
+        // take a copy of the current game state and accumulate the score as we go along
+        StateObservationMulti obs = stateObservation.copy();
+        // note the score now - for normalisation reasons
+        // we wish to track the change in score, not the absolute score
+        double initScore = obs.getGameScore(playerID);
+        double discount = 1.0;
+        double denom = 0;
+        double discountedTot = 0;
+
+        for (int i=0; i<sequenceLength; i++) {
+
+            // Note here that we need to look at the advance method which takes multiple players
+            // hence an array of actions
+            // the idea is that we'll pad out the
+            int myAction = actions[i];
+            int opAction = oppActions[i];
             Types.ACTIONS[] acts = new Types.ACTIONS[2];
             acts[playerID] = gvgaiActions[myAction];
             acts[opponentID] = gvgaiActions[opAction];

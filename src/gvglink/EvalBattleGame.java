@@ -55,6 +55,11 @@ public class EvalBattleGame implements SolutionEvaluator {
 
     }
 
+    @Override
+    public double pairEvaluate(int[] bits, int[] oppBits) {
+        return 0;
+    }
+
     private double runGames(int nGames) {
         StatSummary ss = new StatSummary();
         for (int i=0; i<nGames; i++) {

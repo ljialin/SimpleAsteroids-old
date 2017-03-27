@@ -93,7 +93,7 @@ public class NTupleBanditEA  implements EvoAlg {
             // evc.add(p);
 
             // and then explore the neighbourhood around p, balancing exploration and exploitation
-            // depending on the mutation function, some of the neighbours could be far away
+            // depending on the mutator function, some of the neighbours could be far away
             // or some of them could be duplicates - duplicates a bit wasteful so filter these
             // out - repeat until we have the required number of unique neighbours
 

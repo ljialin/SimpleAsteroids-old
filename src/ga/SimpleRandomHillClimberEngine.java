@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class SimpleRandomHillClimberEngine {
 
-    // Random mutation hill climber
+    // Random mutator hill climber
     // using a relative (hence co-evolutionary)
     // fitness function
     static Random random = new Random();
@@ -18,7 +18,7 @@ public class SimpleRandomHillClimberEngine {
     // set stepAdjust to 1.0 to keep the stepFac fixed
 
     // on quadratic bowl 1.01 works much better than 1.0
-    // which increases the step size every time a mutation
+    // which increases the step size every time a mutator
     // is successful and decreases it every time it fails
     // to improve
     // but be careful: could it make things worse in some cases?
@@ -51,7 +51,7 @@ public class SimpleRandomHillClimberEngine {
             double[] mut = randMut(bestYet, stepFac);
             double diff = eval.pointsDiff(bestYet, mut);
 
-            // if it's better then adopt the mutation as the new best
+            // if it's better then adopt the mutator as the new best
             if (diff >= 0) {
                 bestYet = mut;
                 // try making it bigger - make even faster progress

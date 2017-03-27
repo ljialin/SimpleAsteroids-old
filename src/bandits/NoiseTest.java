@@ -14,7 +14,7 @@ public class NoiseTest {
         double noiseStdDev = 0.78;
 
         for (int i=0; i<nTrials; i++) {
-            // every time a mutation is made in OneMax
+            // every time a mutator is made in OneMax
             // either a zero is flipped to a one
             // which changes the fitness by +1
             // or a one is flipped to a zero
@@ -25,7 +25,7 @@ public class NoiseTest {
             // delta fitness values
             //
             // the other is the the noise making a wrong decision
-            // to incorrectly accept or reject a mutation
+            // to incorrectly accept or reject a mutator
             // i.e. accept a change for the worse
             // or reject a change for the better
 

@@ -56,6 +56,10 @@ public class SearchSpaceUtil {
         return p;
     }
 
+    public static int randomAction(SearchSpace space, int dim) {
+        return random.nextInt(space.nValues(dim));
+    }
+
     public static int[] copyPoint(int[] v) {
         int[] p = new int[v.length];
         for (int i=0; i<p.length; i++) {
